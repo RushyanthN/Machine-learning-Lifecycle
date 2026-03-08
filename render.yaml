@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ml-backend
+    runtime: python
+    buildCommand: pip install -r requirements-backend.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+  - type: web
+    name: ml-frontend
+    runtime: python
+    buildCommand: pip install -r requirements-frontend.txt
+    startCommand: streamlit run frontend/app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    envVars:
+      - key: API_URL
+        sync: false
